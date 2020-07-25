@@ -1,0 +1,187 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.left {
+  width: 30%;
+}
+
+.right {
+  width: 70%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+</style>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+
+<h1>Remote Lidar Scanner</h1>
+
+<p></p>
+<p>Database Size: {{ count }} rows</p>
+<p></p>
+
+<div class="row">
+  <div class="column">
+<h3>Request Data:</h3>
+<form>
+    <input type="checkbox" id="rdorow" onchange="rrowbox()" checked/>
+        <label for="rdorow"> Request between rows</label><br>
+    <label for="rsrow"> Start Row:</label>
+        <input type="number" id="rsrow"/>
+    <p><label for="rerow"> End Row: </label>
+        <input type="number" id="rerow"/></p>
+
+    <input type="checkbox" id="rdoangle" onchange="ranglebox()"/>
+        <label for="rdoangle"> Request between angles</label><br>
+    <label for="rsangle"> Start Angle:</label>
+        <input type="number" id="rsangle" disabled/>
+    <p><label for="reangle"> End Angle: </label>
+        <input type="number" id="reangle" disabled/></p>
+
+    <input type="checkbox" id="rdodist" onchange="rdistbox()"/>
+        <label for="rdodist"> Request between distances</label><br>
+    <label for="rsdist"> Start Distance:</label>
+        <input type="number" id="rsdist" disabled/>
+    <p><label for="redist"> End Distance: </label>
+        <input type="number" id="redist" disabled/></p>
+
+    Output Format:<br>
+    <input type="radio" id="rgraph" name="rtype" value="graph" checked>
+        <label for="rgraph">Graph</label><br>
+    <input type="radio" id="rdat" name="rtype" value="data">
+        <label for="rdat">Raw Data</label><br>
+
+    <input id="rquery" type="button" href="#" value="Query" onclick="rgetvals()"/>
+  </form>
+  </div>
+  <div class="column">
+<h3>Sample Data:</h3>
+<form>
+    <label for="stime"> Number of Seconds:</label>
+        <input type="number" id="stime"/><br>
+    <input type="checkbox" id="dograph"/>
+        <label for="dograph"> Graph this data</label><br>
+    <input id="squery" type="button" href="#" value="Sample" onclick="sgetvals()"/>
+    <br>
+</form>
+
+<h3>Remove Rows:</h3>
+<form>
+    <p><label for="rmsrow"> Start Row:</label>
+        <input type="number" id="rmsrow"/></p>
+    <p><label for="rmerow"> End Row: </label>
+        <input type="number" id="rmerow"/></p>
+    <label for="pwd"> Password: </label>
+        <input type="password" id="pwd" name="pwd" onkeyup="checkpwd()"><br>
+    <input id="rmquery" type="button" href="#" value="Remove" onclick="rmgetvals()" disabled/>
+    <p> {{ status }}</p>
+</form>
+  </div>
+</div>
+
+
+
+<script>
+
+    function rrowbox() {
+        var box = !(document.getElementById('rdorow').checked);
+        document.getElementById('rsrow').disabled = box;
+        document.getElementById('rerow').disabled = box;
+    }
+
+    function ranglebox() {
+        var box = !(document.getElementById('rdoangle').checked);
+        document.getElementById('rsangle').disabled = box;
+        document.getElementById('reangle').disabled = box;
+    }
+
+    function rdistbox() {
+        var box = !(document.getElementById('rdodist').checked);
+        document.getElementById('rsdist').disabled = box;
+        document.getElementById('redist').disabled = box;
+    }
+
+    function rgetvals() {
+        var dorow = document.getElementById('rdorow').checked;
+        var doangle = document.getElementById('rdoangle').checked;
+        var dodist = document.getElementById('rdodist').checked;
+        var type = document.getElementsByName('rtype');
+        var link = '&dorow=' + dorow + '&doangle=' + doangle + '&dodist=' + dodist;
+
+        if (type[0].checked)
+            link = '/graph?' + link;
+        else{
+            link = '/read?' + link;
+        }
+
+        if (dorow){
+
+            var rbegin = document.getElementById('rsrow').value;
+            var rend = document.getElementById('rerow').value;
+
+            link = link + '&rbegin=' + rbegin + '&rend=' + rend;
+        }
+
+        if (doangle){
+
+            var abegin = document.getElementById('rsangle').value;
+            var aend = document.getElementById('reangle').value;
+
+            link = link + '&abegin=' + abegin + '&aend=' + aend;
+        }
+
+        if (dodist){
+
+            var dbegin = document.getElementById('rsdist').value;
+            var dend = document.getElementById('redist').value;
+
+            link = link + '&dbegin=' + dbegin + '&dend=' + dend;
+        }
+
+        window.location = link;
+    }
+
+    function sgetvals() {
+        var time = document.getElementById('stime').value;
+        var graph = document.getElementById('dograph').checked;
+        window.location = '/start?time=' + time + '&graph=' + graph;
+    }
+
+    function checkpwd() {
+        document.getElementById('rmquery').disabled = document.getElementById('pwd').value;
+    }
+
+    function rmgetvals() {
+        var begin = document.getElementById('rmsrow').value;
+        var end = document.getElementById('rmerow').value;
+        var pwd = document.getElementById('pwd').value;
+        window.location = '/remove?begin=' + begin + '&end=' + end + '&pwd=' + pwd;
+    }
+
+
+</script>
+
+</body>
+
+</html>
