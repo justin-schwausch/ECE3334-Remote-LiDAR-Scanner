@@ -1,7 +1,24 @@
 import sqlite3  # built for sqlite3
+import os.path # checks for database existence
 
 
 class Database(object):  # database object
+
+    def __init__(self):  # set up database
+        if os.path.isfile('database.db'): # do nothing if database already exists
+            print("Database Exists!")
+
+        else: # if no database, create one
+
+            print("Database not detected. Creating Database")
+            conn = sqlite3.connect('database.db')
+            c = conn.cursor()
+            c.execute('CREATE TABLE readings(angle real, distance real)') # one column for angle and one for distance
+            conn.commit()
+            conn.close()
+            print("Database Created")
+
+
 
     def fetch(self, rbegin, rend, abegin, aend, dbegin, dend):  # fetches specified rows from database
         print(rbegin, rend, abegin, aend, dbegin, dend)
