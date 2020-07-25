@@ -31,13 +31,20 @@ def favicon():
 @app.route('/start')  # triggers sampling and stores to database
 def start():
     secs = int(request.args.get('time', None)) # grab seconds from query
-    dograph = str(request.args.get('graph', None)) # should graph
+    doreturn = str(request.args.get('return', None)) # should return data
     count = db.store(wrapper.output(secs))  # triggers sampling, stores to database, updates count
-    if (dograph == 'true'):
-        begin = count - (secs * 2000) # graph start point
-        return flask.redirect(flask.url_for('graph') + f'?begin={begin}&end={count}') # redirect to graph
-    else:
+    if (doreturn.lower() == 'none'): # if no data should be returned
         return flask.render_template('ui.html', count=count)  # return ui
+
+    else:
+
+       begin = count - (secs * 2000) # start point
+
+    if(doreturn == 'raw'):
+        return flask.redirect(flask.url_for('read') + f'?dorow=true&doangle=false&dodist=false&rbegin={begin}&rend={count}') # redirect to raw data
+    else: # return graph
+        return flask.redirect(flask.url_for('graph') + f'?begin={begin}&end={count}') # redirect to graph
+
 
 
 @app.route('/graph')  # graphs rows from db using plotly

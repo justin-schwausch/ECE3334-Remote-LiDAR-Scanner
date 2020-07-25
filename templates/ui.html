@@ -80,8 +80,13 @@
 <form>
     <label for="stime"> Number of Seconds:</label>
         <input type="number" id="stime"/><br>
-    <input type="checkbox" id="dograph"/>
-        <label for="dograph"> Graph this data</label><br>
+    Output Format:<br>
+    <input type="radio" id="snone" name="stype" value="none" checked>
+        <label for="snone">None</label><br>
+    <input type="radio" id="sgraph" name="stype" value="graph">
+        <label for="sgraph">Graph</label><br>
+    <input type="radio" id="sdat" name="stype" value="raw">
+        <label for="sdat">Raw Data</label><br>
     <input id="squery" type="button" href="#" value="Sample" onclick="sgetvals()"/>
     <br>
 </form>
@@ -164,8 +169,17 @@
 
     function sgetvals() {
         var time = document.getElementById('stime').value;
-        var graph = document.getElementById('dograph').checked;
-        window.location = '/start?time=' + time + '&graph=' + graph;
+        var doreturn = document.getElementsByName('stype');
+        let type = 'none';
+
+        if (doreturn[1].checked){
+            type = 'grapb';
+        }
+        else if(doreturn[2].checked){
+            type = 'raw';
+        }
+
+        window.location = '/start?time=' + time + '&return=' + type;
     }
 
     function checkpwd() {
