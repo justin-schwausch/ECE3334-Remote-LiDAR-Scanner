@@ -14,10 +14,10 @@ class Wrapper(object):  # wrapper object
     def stop(self):  # stops motor
         self.lidar.stop_motor()
 
-    def output(self, secs):  # samples for number of seconds
+    def output(self, amount):  # samples for number of seconds
         i = 0
         measurements = []  # stores readings
-        secs = secs * 2000  # 2000 samples per second
+        secs = amount  # 2000 samples per second
         begin = time.time()  # grab unix start time
         for measurement in self.lidar.iter_measurments():  # iterate through measurements
             measurements.append(measurement)  # add to measurement array

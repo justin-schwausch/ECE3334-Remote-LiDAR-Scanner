@@ -78,14 +78,18 @@
   <div class="column">
 <h3>Sample Data:</h3>
 <form>
-    <label for="stime"> Number of Seconds:</label>
-        <input type="number" id="stime"/><br>
+    <input type="radio" id="ssec" name="stype" value="seconds" onchange="sgettype()" checked>
+        <label for="ssec">Seconds</label>
+    <input type="radio" id="ssam" name="stype" value="samples" onchange="sgettype()">
+        <label for="ssam">Samples</label><br>
+    <label id="slabel" for="samount"> Number of Seconds:</label>
+        <input type="number" id="samount"/><br>
     Output Format:<br>
-    <input type="radio" id="snone" name="stype" value="none" checked>
+    <input type="radio" id="snone" name="sret" value="none" checked>
         <label for="snone">None</label><br>
-    <input type="radio" id="sgraph" name="stype" value="graph">
+    <input type="radio" id="sgraph" name="sret" value="graph">
         <label for="sgraph">Graph</label><br>
-    <input type="radio" id="sdat" name="stype" value="raw">
+    <input type="radio" id="sdat" name="sret" value="raw">
         <label for="sdat">Raw Data</label><br>
     <input id="squery" type="button" href="#" value="Sample" onclick="sgetvals()"/>
     <br>
@@ -167,19 +171,37 @@
         window.location = link;
     }
 
+    function sgettype(){
+        var type = "";
+        var selection = document.getElementsByName('stype');
+        if(selection[0].checked){
+            type = "Seconds";
+        }
+        else if(selection[1].checked){
+            type = "Samples";
+        }
+        document.getElementById('slabel').innerHTML = "Number of " + type;
+    }
+
     function sgetvals() {
-        var time = document.getElementById('stime').value;
-        var doreturn = document.getElementsByName('stype');
-        let type = 'none';
+        var amount = document.getElementById('samount').value;
+        var doreturn = document.getElementsByName('sret');
+        var ssel = document.getElementsByName('stype');
+        let rettype = 'none';
+        let stype = '';
+
+        if(ssel[0].checked){
+            amount = amount * 2000;
+        }
 
         if (doreturn[1].checked){
-            type = 'grapb';
+            rettype = 'grapb';
         }
         else if(doreturn[2].checked){
-            type = 'raw';
+            rettype = 'raw';
         }
 
-        window.location = '/start?time=' + time + '&return=' + type;
+        window.location = '/start?amount=' + amount + '&return=' + rettype;
     }
 
     function checkpwd() {

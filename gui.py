@@ -30,15 +30,15 @@ def favicon():
 
 @app.route('/start')  # triggers sampling and stores to database
 def start():
-    secs = int(request.args.get('time', None)) # grab seconds from query
+    amount = int(request.args.get('amount', None)) # grab amount from query
     doreturn = str(request.args.get('return', None)) # should return data
-    count = db.store(wrapper.output(secs))  # triggers sampling, stores to database, updates count
+    count = db.store(wrapper.output(amount))  # triggers sampling, stores to database, updates count
     if (doreturn.lower() == 'none'): # if no data should be returned
         return flask.render_template('ui.html', count=count)  # return ui
 
     else:
 
-       begin = count - (secs * 2000) # start point
+       begin = count - amount # start point
 
     if(doreturn == 'raw'):
         return flask.redirect(flask.url_for('read') + f'?dorow=true&doangle=false&dodist=false&rbegin={begin}&rend={count}') # redirect to raw data
