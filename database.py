@@ -1,11 +1,12 @@
 import sqlite3  # built for sqlite3
-import os.path # checks for database existence
+from pathlib import Path # checks for database existence and size
 
 
 class Database(object):  # database object
 
     def __init__(self):  # set up database
-        if os.path.isfile('database.db'): # do nothing if database already exists
+        print(Path('database.db').is_file())
+        if Path('database.db').is_file(): # do nothing if database already exists
             print("Database Exists!")
 
         else: # if no database, create one
@@ -36,34 +37,38 @@ class Database(object):  # database object
         conn.commit()  # commit changes
 
         c.execute('SELECT count(rowid) FROM readings')  # select rows to determine size
-        count = c.fetchone()  # fetch row count
-        count = int(count[0])  # convert to int
+        amount = c.fetchone()  # fetch row count
+        amount = int(amount[0])  # convert to int
         conn.commit()
         conn.close()
-        return count
+        size = Path('database.db').stat().st_size / 1000000 # grab physical size of db on disc in MB
+        return amount, size
 
     def count(self):  # returns the number of rows in the database
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
         c.execute('SELECT count(rowid) FROM readings')  # select rows in database
-        count = c.fetchone()
-        count = int(count[0])
+        amount = c.fetchone()
+        amount = int(amount[0])
         conn.commit()
         conn.close()
-        return count
+        size = Path('database.db').stat().st_size / 1000000 # grab physical size of db on disc in MB
+        return amount, size
 
     def remove(self, start, end):  # remove specified rows from the database
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
         c.execute('DELETE FROM readings WHERE rowid BETWEEN {0} AND {1}'.format(start, end))  # delete rows
         conn.commit()
-
+        c.execute('VACUUM') # delete empty rows
+        conn.commit()
         c.execute('SELECT count(rowid) FROM readings')  # get new row count
-        count = c.fetchone()
-        count = int(count[0])
+        amount = c.fetchone()
+        amount = int(amount[0])
         conn.commit()
         conn.close()
-        return count
+        size = Path('database.db').stat().st_size / 1000000 # grab physical size of db on disc in MB
+        return amount, size
 
     def fetchall(self):  # returns all rows in database
         conn = sqlite3.connect('database.db')

@@ -18,8 +18,9 @@ app.config["DEBUG"] = True  # enable Flask debug for web server
 
 @app.route('/')  # root address
 def index():
-    count = db.count()  # update database size
-    return flask.render_template('ui.html', count=count)  # return ui
+    rows, size = db.count()  # update database size
+    print(count)
+    return flask.render_template('ui.html', rows=rows, size=size)  # return ui
 
 
 @app.route('/static/favicon.ico') # serve favicon
@@ -32,9 +33,9 @@ def favicon():
 def start():
     amount = int(request.args.get('amount', None)) # grab amount from query
     doreturn = str(request.args.get('return', None)) # should return data
-    count = db.store(wrapper.output(amount))  # triggers sampling, stores to database, updates count
+    rows, size = db.store(wrapper.output(amount))  # triggers sampling, stores to database, updates count
     if (doreturn.lower() == 'none'): # if no data should be returned
-        return flask.render_template('ui.html', count=count)  # return ui
+        return flask.render_template('ui.html', rows=rows, size=size)  # return ui
 
     else:
 
@@ -121,11 +122,11 @@ def remove():
     end = str(request.args.get('end', None))
     pwd = str(request.args.get('pwd', None)) # 'password'
     if (pwd == password):
-        count = db.remove(begin, end)  # remove rows and update size
-        return flask.render_template('ui.html', count=count, status='Removal Successful')  # return success
+        rows, size = db.remove(begin, end)  # remove rows and update size
+        return flask.render_template('ui.html', rows=rows, size=size, status='Removal Successful')  # return success
     else:
-        count = db.count()
-        return flask.render_template('ui.html', count=count, status='Incorrect Password')  # return failure
+        rows, size = db.count()
+        return flask.render_template('ui.html', rows=rows, size=size, status='Incorrect Password')  # return failure
 
 
 @app.route('/count')  # return size of db in plaintext
