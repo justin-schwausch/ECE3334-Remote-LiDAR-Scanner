@@ -183,7 +183,7 @@
     }
 
     function checkpwd() {
-        document.getElementById('rmquery').disabled = document.getElementById('pwd').value;
+        document.getElementById('rmquery').disabled = (document.getElementById('pwd').value.length == 0)
     }
 
     function rmgetvals() {
