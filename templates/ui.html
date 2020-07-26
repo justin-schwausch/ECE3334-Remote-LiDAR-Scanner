@@ -45,21 +45,21 @@
   <div class="column">
 <h3>Request Data:</h3>
 <form>
-    <input type="checkbox" id="rdorow" onchange="rrowbox()" checked/>
+    <input type="checkbox" id="rdorow" onchange="rrowbox(); rchange();" checked/>
         <label for="rdorow"> Request between rows</label><br>
     <label for="rsrow"> Start Row:</label>
         <input type="number" id="rsrow"/>
     <p><label for="rerow"> End Row: </label>
         <input type="number" id="rerow"/></p>
 
-    <input type="checkbox" id="rdoangle" onchange="ranglebox()"/>
+    <input type="checkbox" id="rdoangle" onchange="ranglebox(); rchange();"/>
         <label for="rdoangle"> Request between angles</label><br>
     <label for="rsangle"> Start Angle:</label>
         <input type="number" id="rsangle" disabled/>
     <p><label for="reangle"> End Angle: </label>
         <input type="number" id="reangle" disabled/></p>
 
-    <input type="checkbox" id="rdodist" onchange="rdistbox()"/>
+    <input type="checkbox" id="rdodist" onchange="rdistbox(); rchange();"/>
         <label for="rdodist"> Request between distances</label><br>
     <label for="rsdist"> Start Distance:</label>
         <input type="number" id="rsdist" disabled/>
@@ -71,6 +71,8 @@
         <label for="rgraph">Graph</label><br>
     <input type="radio" id="rdat" name="rtype" value="data">
         <label for="rdat">Raw Data</label><br>
+
+    <p id="rwarning" style="color:red; display:none;">Please select at least one parameter.</p>
 
     <input id="rquery" type="button" href="#" value="Query" onclick="rgetvals()"/>
   </form>
@@ -129,6 +131,22 @@
         var box = !(document.getElementById('rdodist').checked);
         document.getElementById('rsdist').disabled = box;
         document.getElementById('redist').disabled = box;
+    }
+
+    function rchange(){
+        var row = document.getElementById('rdorow').checked;
+        var angle = document.getElementById('rdoangle').checked;
+        var dist = document.getElementById('rdodist').checked;
+
+        if (row || angle || dist){
+            document.getElementById('rwarning').style.display = 'none';
+            document.getElementById('rquery').disabled = false;
+        }
+        else {
+            document.getElementById('rwarning').style.display = 'block';
+            document.getElementById('rquery').disabled = true;
+        }
+
     }
 
     function rgetvals() {
