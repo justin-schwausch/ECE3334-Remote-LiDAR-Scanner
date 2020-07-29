@@ -1,31 +1,31 @@
 import sqlite3  # built for sqlite3
-from pathlib import Path # checks for database existence and size
+from pathlib import Path  # checks for database existence and size
 
 
 class Database(object):  # database object
 
     def __init__(self):  # set up database
         print(Path('database.db').is_file())
-        if Path('database.db').is_file(): # do nothing if database already exists
+        if Path('database.db').is_file():  # do nothing if database already exists
             print("Database Exists!")
 
-        else: # if no database, create one
+        else:  # if no database, create one
 
             print("Database not detected. Creating Database")
             conn = sqlite3.connect('database.db')
             c = conn.cursor()
-            c.execute('CREATE TABLE readings(angle real, distance real)') # one column for angle and one for distance
+            c.execute('CREATE TABLE readings(angle real, distance real)')  # one column for angle and one for distance
             conn.commit()
             conn.close()
             print("Database Created")
-
-
 
     def fetch(self, rbegin, rend, abegin, aend, dbegin, dend):  # fetches specified rows from database
         print(rbegin, rend, abegin, aend, dbegin, dend)
         conn = sqlite3.connect('database.db')  # connect to database
         c = conn.cursor()  # database cursor
-        c.execute('SELECT * FROM readings WHERE rowid BETWEEN {0} AND {1} AND angle BETWEEN {2} AND {3} AND distance between {4} AND {5}'.format(rbegin, rend, abegin, aend, dbegin, dend))  # select rows
+        c.execute(
+            'SELECT * FROM readings WHERE rowid BETWEEN {0} AND {1} AND angle BETWEEN {2} AND {3} AND distance between {4} AND {5}'.format(
+                rbegin, rend, abegin, aend, dbegin, dend))  # select rows
         results = c.fetchall()  # fetch rows
         conn.close()  # close connection
         return results
@@ -41,7 +41,7 @@ class Database(object):  # database object
         amount = int(amount[0])  # convert to int
         conn.commit()
         conn.close()
-        size = Path('database.db').stat().st_size / 1000000 # grab physical size of db on disc in MB
+        size = Path('database.db').stat().st_size / 1000000  # grab physical size of db on disc in MB
         return amount, size
 
     def count(self):  # returns the number of rows in the database
@@ -52,7 +52,7 @@ class Database(object):  # database object
         amount = int(amount[0])
         conn.commit()
         conn.close()
-        size = Path('database.db').stat().st_size / 1000000 # grab physical size of db on disc in MB
+        size = Path('database.db').stat().st_size / 1000000  # grab physical size of db on disc in MB
         return amount, size
 
     def remove(self, start, end):  # remove specified rows from the database
@@ -60,14 +60,14 @@ class Database(object):  # database object
         c = conn.cursor()
         c.execute('DELETE FROM readings WHERE rowid BETWEEN {0} AND {1}'.format(start, end))  # delete rows
         conn.commit()
-        c.execute('VACUUM') # delete empty rows
+        c.execute('VACUUM')  # delete empty rows
         conn.commit()
         c.execute('SELECT count(rowid) FROM readings')  # get new row count
         amount = c.fetchone()
         amount = int(amount[0])
         conn.commit()
         conn.close()
-        size = Path('database.db').stat().st_size / 1000000 # grab physical size of db on disc in MB
+        size = Path('database.db').stat().st_size / 1000000  # grab physical size of db on disc in MB
         return amount, size
 
     def fetchall(self):  # returns all rows in database

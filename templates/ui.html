@@ -1,36 +1,36 @@
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-  box-sizing: border-box;
-}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-.column {
-  float: left;
-  padding: 10px;
-}
+        .column {
+            float: left;
+            padding: 10px;
+        }
 
-.left {
-  width: 30%;
-}
+        .left {
+            width: 30%;
+        }
 
-.right {
-  width: 70%;
-}
+        .right {
+            width: 70%;
+        }
 
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
 
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
-  }
-}
-</style>
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+            }
+        }
+    </style>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
@@ -45,75 +45,74 @@ Database Size:<br>
 <p></p>
 
 <div class="row">
-  <div class="column">
-<h3>Request Data:</h3>
-<form>
-    <input type="checkbox" id="rdorow" onchange="rrowbox(); rchange();" checked/>
-        <label for="rdorow"> Request between rows</label><br>
-    <label for="rsrow"> Start Row:</label>
-        <input type="number" id="rsrow"/>
-    <p><label for="rerow"> End Row: </label>
-        <input type="number" id="rerow"/></p>
+    <div class="column">
+        <h3>Request Data:</h3>
+        <form>
+            <input type="checkbox" id="rdorow" onchange="rrowbox(); rchange();" checked/>
+            <label for="rdorow"> Request between rows</label><br>
+            <label for="rsrow"> Start Row:</label>
+            <input type="number" id="rsrow"/>
+            <p><label for="rerow"> End Row: </label>
+                <input type="number" id="rerow"/></p>
 
-    <input type="checkbox" id="rdoangle" onchange="ranglebox(); rchange();"/>
-        <label for="rdoangle"> Request between angles</label><br>
-    <label for="rsangle"> Start Angle:</label>
-        <input type="number" id="rsangle" disabled/>
-    <p><label for="reangle"> End Angle: </label>
-        <input type="number" id="reangle" disabled/></p>
+            <input type="checkbox" id="rdoangle" onchange="ranglebox(); rchange();"/>
+            <label for="rdoangle"> Request between angles</label><br>
+            <label for="rsangle"> Start Angle:</label>
+            <input type="number" id="rsangle" disabled/>
+            <p><label for="reangle"> End Angle: </label>
+                <input type="number" id="reangle" disabled/></p>
 
-    <input type="checkbox" id="rdodist" onchange="rdistbox(); rchange();"/>
-        <label for="rdodist"> Request between distances</label><br>
-    <label for="rsdist"> Start Distance:</label>
-        <input type="number" id="rsdist" disabled/>
-    <p><label for="redist"> End Distance: </label>
-        <input type="number" id="redist" disabled/></p>
+            <input type="checkbox" id="rdodist" onchange="rdistbox(); rchange();"/>
+            <label for="rdodist"> Request between distances</label><br>
+            <label for="rsdist"> Start Distance:</label>
+            <input type="number" id="rsdist" disabled/>
+            <p><label for="redist"> End Distance: </label>
+                <input type="number" id="redist" disabled/></p>
 
-    Output Format:<br>
-    <input type="radio" id="rgraph" name="rtype" value="graph" checked>
-        <label for="rgraph">Graph</label><br>
-    <input type="radio" id="rdat" name="rtype" value="data">
-        <label for="rdat">Raw Data</label><br>
+            Output Format:<br>
+            <input type="radio" id="rgraph" name="rtype" value="graph" checked>
+            <label for="rgraph">Graph</label><br>
+            <input type="radio" id="rdat" name="rtype" value="data">
+            <label for="rdat">Raw Data</label><br>
 
-    <p id="rwarning" style="color:red; display:none;">Please select at least one parameter.</p>
+            <p id="rwarning" style="color:red; display:none;">Please select at least one parameter.</p>
 
-    <input id="rquery" type="button" href="#" value="Query" onclick="rgetvals()"/>
-  </form>
-  </div>
-  <div class="column">
-<h3>Sample Data:</h3>
-<form>
-    <input type="radio" id="ssec" name="stype" value="seconds" onchange="sgettype()" checked>
-        <label for="ssec">Seconds</label>
-    <input type="radio" id="ssam" name="stype" value="samples" onchange="sgettype()">
-        <label for="ssam">Samples</label><br>
-    <label id="slabel" for="samount"> Number of Seconds:</label>
-        <input type="number" id="samount"/><br>
-    Output Format:<br>
-    <input type="radio" id="snone" name="sret" value="none" checked>
-        <label for="snone">None</label><br>
-    <input type="radio" id="sgraph" name="sret" value="graph">
-        <label for="sgraph">Graph</label><br>
-    <input type="radio" id="sdat" name="sret" value="raw">
-        <label for="sdat">Raw Data</label><br>
-    <input id="squery" type="button" href="#" value="Sample" onclick="sgetvals()"/>
-    <br>
-</form>
+            <input id="rquery" type="button" href="#" value="Query" onclick="rgetvals()"/>
+        </form>
+    </div>
+    <div class="column">
+        <h3>Sample Data:</h3>
+        <form>
+            <input type="radio" id="ssec" name="stype" value="seconds" onchange="sgettype()" checked>
+            <label for="ssec">Seconds</label>
+            <input type="radio" id="ssam" name="stype" value="samples" onchange="sgettype()">
+            <label for="ssam">Samples</label><br>
+            <label id="slabel" for="samount"> Number of Seconds:</label>
+            <input type="number" id="samount"/><br>
+            Output Format:<br>
+            <input type="radio" id="snone" name="sret" value="none" checked>
+            <label for="snone">None</label><br>
+            <input type="radio" id="sgraph" name="sret" value="graph">
+            <label for="sgraph">Graph</label><br>
+            <input type="radio" id="sdat" name="sret" value="raw">
+            <label for="sdat">Raw Data</label><br>
+            <input id="squery" type="button" href="#" value="Sample" onclick="sgetvals()"/>
+            <br>
+        </form>
 
-<h3>Remove Rows:</h3>
-<form>
-    <p><label for="rmsrow"> Start Row:</label>
-        <input type="number" id="rmsrow"/></p>
-    <p><label for="rmerow"> End Row: </label>
-        <input type="number" id="rmerow"/></p>
-    <label for="pwd"> Password: </label>
-        <input type="password" id="pwd" name="pwd" onkeyup="checkpwd()"><br>
-    <input id="rmquery" type="button" href="#" value="Remove" onclick="rmgetvals()" disabled/>
-    <p> {{ status }}</p>
-</form>
-  </div>
+        <h3>Remove Rows:</h3>
+        <form>
+            <p><label for="rmsrow"> Start Row:</label>
+                <input type="number" id="rmsrow"/></p>
+            <p><label for="rmerow"> End Row: </label>
+                <input type="number" id="rmerow"/></p>
+            <label for="pwd"> Password: </label>
+            <input type="password" id="pwd" name="pwd" onkeyup="checkpwd()"><br>
+            <input id="rmquery" type="button" href="#" value="Remove" onclick="rmgetvals()" disabled/>
+            <p> {{ status }}</p>
+        </form>
+    </div>
 </div>
-
 
 
 <script>
@@ -136,12 +135,12 @@ Database Size:<br>
         document.getElementById('redist').disabled = box;
     }
 
-    function rchange(){
+    function rchange() {
         var row = document.getElementById('rdorow').checked;
         var angle = document.getElementById('rdoangle').checked;
         var dist = document.getElementById('rdodist').checked;
 
-        if (row || angle || dist){
+        if (row || angle || dist) {
             document.getElementById('rwarning').style.display = 'none';
             document.getElementById('rquery').disabled = false;
         }
@@ -163,43 +162,43 @@ Database Size:<br>
 
         if (type[0].checked)
             link = '/graph?';
-        else{
+        else {
             link = '/read?';
         }
 
-        if (dorow){
+        if (dorow) {
             var rbegin = document.getElementById('rsrow').value;
             var rend = document.getElementById('rerow').value;
 
-            if(rbegin.length > 0 && rend.length > 0) {
+            if (rbegin.length > 0 && rend.length > 0) {
                 args = args + '&rbegin=' + rbegin + '&rend=' + rend;
             }
 
-            else{
+            else {
                 dorow = !dorow;
             }
         }
 
-        if (doangle){
+        if (doangle) {
             var abegin = document.getElementById('rsangle').value;
             var aend = document.getElementById('reangle').value;
 
-            if(abegin.length > 0 && aend.length > 0) {
+            if (abegin.length > 0 && aend.length > 0) {
                 args = args + '&abegin=' + abegin + '&aend=' + aend;
             }
-            else{
+            else {
                 doangle = !doangle;
             }
         }
 
-        if (dodist){
+        if (dodist) {
             var dbegin = document.getElementById('rsdist').value;
             var dend = document.getElementById('redist').value;
 
-            if(dbegin.length > 0 && dend.length > 0) {
+            if (dbegin.length > 0 && dend.length > 0) {
                 args = args + '&dbegin=' + dbegin + '&dend=' + dend;
             }
-            else{
+            else {
                 dodist = !dodist;
             }
         }
@@ -210,13 +209,13 @@ Database Size:<br>
         window.location = link;
     }
 
-    function sgettype(){
+    function sgettype() {
         var type = "";
         var selection = document.getElementsByName('stype');
-        if(selection[0].checked){
+        if (selection[0].checked) {
             type = "Seconds";
         }
-        else if(selection[1].checked){
+        else if (selection[1].checked) {
             type = "Samples";
         }
         document.getElementById('slabel').innerHTML = "Number of " + type;
@@ -227,16 +226,15 @@ Database Size:<br>
         var doreturn = document.getElementsByName('sret');
         var ssel = document.getElementsByName('stype');
         let rettype = 'none';
-        let stype = '';
 
-        if(ssel[0].checked){
+        if (ssel[0].checked) {
             amount = amount * 2000;
         }
 
-        if (doreturn[1].checked){
+        if (doreturn[1].checked) {
             rettype = 'grapb';
         }
-        else if(doreturn[2].checked){
+        else if (doreturn[2].checked) {
             rettype = 'raw';
         }
 
