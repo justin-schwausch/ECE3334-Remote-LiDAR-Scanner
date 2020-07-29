@@ -39,10 +39,10 @@ def start():
 
     else:
 
-       begin = count - amount # start point
+       begin = rows - amount # start point
 
     if(doreturn == 'raw'):
-        return flask.redirect(flask.url_for('read') + f'?dorow=true&doangle=false&dodist=false&rbegin={begin}&rend={count}') # redirect to raw data
+        return flask.redirect(flask.url_for('read') + f'?dorow=true&doangle=false&dodist=false&rbegin={begin}&rend={rows}') # redirect to raw data
     else: # return graph
         return flask.redirect(flask.url_for('graph') + f'?begin={begin}&end={count}') # redirect to graph
 
@@ -56,7 +56,8 @@ def graph():
 
     else:  # else set to default values
         rbegin = '0'  # select from 0 to end of database
-        rend = str(db.count())
+        rend, stmp = db.count()
+
 
     if (str(request.args.get('doangle', None)) == 'true'):  # if selecting via angle
         abegin = str(request.args.get('abegin', None))  # grab start and end angles
@@ -90,7 +91,7 @@ def read():
 
     else: # else set to default values
         rbegin = '0' # select from 0 to end of database
-        rend = str(db.count())
+        rend, atmp = db.count()
 
     if(str(request.args.get('doangle', None)) == 'true'): # if selecting via angle
         abegin = str(request.args.get('abegin', None)) # grab start and end angles
