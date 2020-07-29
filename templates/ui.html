@@ -157,37 +157,55 @@ Database Size:<br>
         var doangle = document.getElementById('rdoangle').checked;
         var dodist = document.getElementById('rdodist').checked;
         var type = document.getElementsByName('rtype');
-        var link = '&dorow=' + dorow + '&doangle=' + doangle + '&dodist=' + dodist;
+        var link = '';
+        var params = '';
+        var args = '';
 
         if (type[0].checked)
-            link = '/graph?' + link;
+            link = '/graph?';
         else{
-            link = '/read?' + link;
+            link = '/read?';
         }
 
         if (dorow){
-
             var rbegin = document.getElementById('rsrow').value;
             var rend = document.getElementById('rerow').value;
 
-            link = link + '&rbegin=' + rbegin + '&rend=' + rend;
+            if(rbegin.length > 0 && rend.length > 0) {
+                args = args + '&rbegin=' + rbegin + '&rend=' + rend;
+            }
+
+            else{
+                dorow = !dorow;
+            }
         }
 
         if (doangle){
-
             var abegin = document.getElementById('rsangle').value;
             var aend = document.getElementById('reangle').value;
 
-            link = link + '&abegin=' + abegin + '&aend=' + aend;
+            if(abegin.length > 0 && aend.length > 0) {
+                args = args + '&abegin=' + abegin + '&aend=' + aend;
+            }
+            else{
+                doangle = !doangle;
+            }
         }
 
         if (dodist){
-
             var dbegin = document.getElementById('rsdist').value;
             var dend = document.getElementById('redist').value;
 
-            link = link + '&dbegin=' + dbegin + '&dend=' + dend;
+            if(dbegin.length > 0 && dend.length > 0) {
+                args = args + '&dbegin=' + dbegin + '&dend=' + dend;
+            }
+            else{
+                dodist = !dodist;
+            }
         }
+
+        params = '&dorow=' + dorow + '&doangle=' + doangle + '&dodist=' + dodist;
+        link = link + params + args;
 
         window.location = link;
     }
