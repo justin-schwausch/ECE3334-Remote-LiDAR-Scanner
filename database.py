@@ -1,3 +1,15 @@
+'''
+A database interface program, designed to store LiDAR readings inside a SQLite3 database on the local system.
+Created for CMPE Project Lab, ECE 3334, Summer 2020.
+
+Created by: Justin Schwausch
+justinschwausch980@gmail.com
+
+Used in the following Repo: https://github.com/justin-schwausch/ECE3334-Remote-LiDAR-Scanner
+This file and the rest of the repo are released under the GNU General Public License v3.0 license.
+The code is provided as-is, with no guarantees to functionality or warranties. Users take full responsibility for any
+and all damages incurred by using this program or any of this repository.
+'''
 import sqlite3  # built for sqlite3
 from pathlib import Path  # checks for database existence and size
 

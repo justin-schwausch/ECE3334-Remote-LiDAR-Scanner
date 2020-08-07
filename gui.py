@@ -1,3 +1,18 @@
+'''
+This module instantiates the remaining modules and acts as the top of the program.
+The module uses Flask to host a web server for users to interact with the program using a web browser.
+The module also uses plotly to create interactive polar graphs of LiDAR scan data pulled from a database to be displayed
+to the end user.
+Created for CMPE Project Lab, ECE 3334, Summer 2020.
+
+Created by: Justin Schwausch
+justinschwausch980@gmail.com
+
+Used in the following Repo: https://github.com/justin-schwausch/ECE3334-Remote-LiDAR-Scanner
+This file and the rest of the repo are released under the GNU General Public License v3.0 license.
+The code is provided as-is, with no guarantees to functionality or warranties. Users take full responsibility for any
+and all damages incurred by using this program or any of this repository.
+'''
 from wrapper import Wrapper  # custom Python LiDAR wrapper
 from database import Database  # custom database wrapper
 import password  # stores passphrase for row removal

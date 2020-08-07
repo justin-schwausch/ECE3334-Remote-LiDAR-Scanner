@@ -1,3 +1,15 @@
+'''
+A wrapper program designed to interface with the RPLidar library to control the RPLidar A1M8 scanner.
+Created for CMPE Project Lab, ECE 3334, Summer 2020.
+
+Created by: Justin Schwausch
+justinschwausch980@gmail.com
+
+Used in the following Repo: https://github.com/justin-schwausch/ECE3334-Remote-LiDAR-Scanner
+This file and the rest of the repo are released under the GNU General Public License v3.0 license.
+The code is provided as-is, with no guarantees to functionality or warranties. Users take full responsibility for any
+and all damages incurred by using this program or any of this repository.
+'''
 from rplidar import RPLidar  # import RPLidar framework
 import time  # time for scan benchmarking
 
