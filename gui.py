@@ -45,7 +45,7 @@ def start():
         return flask.redirect(flask.url_for(
             'read') + f'?dorow=true&doangle=false&dodist=false&rbegin={begin}&rend={rows}')  # redirect to raw data
     else:  # return graph
-        return flask.redirect(flask.url_for('graph') + f'?begin={begin}&end={count}')  # redirect to graph
+        return flask.redirect(flask.url_for('graph') + f'?begin={begin}&end={rows}')  # redirect to graph
 
 
 @app.route('/graph')  # graphs rows from db using plotly
